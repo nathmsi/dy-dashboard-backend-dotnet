@@ -1,0 +1,38 @@
+@host = http://localhost:3001
+
+### Health check
+GET {{host}}/health
+
+### List campaigns (paginated, filtered, sorted)
+GET {{host}}/api/v1/campaigns?limit=5&status=active&sort=visitors&order=desc
+
+### Get one
+GET {{host}}/api/v1/campaigns/camp-001
+
+### Create
+# @name create
+POST {{host}}/api/v1/campaigns
+Content-Type: application/json
+
+{
+  "name": "Spring Sale",
+  "status": "active",
+  "channel": "Web",
+  "conversionRate": 5.2,
+  "visitors": 1000,
+  "startDate": "2026-04-01"
+}
+
+### Update (uses the id returned by the create request above)
+PATCH {{host}}/api/v1/campaigns/{{create.response.body.id}}
+Content-Type: application/json
+
+{
+  "status": "paused"
+}
+
+### Delete
+DELETE {{host}}/api/v1/campaigns/{{create.response.body.id}}
+
+### OpenAPI spec
+GET {{host}}/api/openapi.json
