@@ -1,0 +1,31 @@
+# Render Blueprint — lets you deploy this API with one click.
+# https://render.com/docs/blueprint-spec
+#
+# On render.com: New > Blueprint > connect this repo. Render reads this file,
+# builds the Dockerfile, and boots the service. Render injects PORT itself and
+# the app binds Kestrel to it.
+services:
+  - type: web
+    name: dy-dashboard-backend-dotnet
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      # Set this to your deployed dashboard's origin (e.g. https://your-app.vercel.app).
+      # Bound to Api:CorsOrigin via ASP.NET's __ env-var convention.
+      - key: Api__CorsOrigin
+        sync: false
+
+# NOTE: The free plan has an ephemeral filesystem, so the SQLite database is
+# recreated (and re-seeded) on every deploy/restart. That is fine for a demo.
+# For persistent data, upgrade the service and add a disk:
+#
+#   disk:
+#     name: data
+#     mountPath: /app/data
+#     sizeGB: 1
+#
+# then set Api__DatabasePath=/app/data/dashboard.db in envVars.

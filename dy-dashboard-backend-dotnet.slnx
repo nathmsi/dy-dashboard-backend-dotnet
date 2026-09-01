@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DyDashboard.Api/DyDashboard.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DyDashboard.Api.Tests/DyDashboard.Api.Tests.csproj" />
+  </Folder>
+</Solution>

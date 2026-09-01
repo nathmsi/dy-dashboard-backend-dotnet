@@ -1,0 +1,21 @@
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+*.user
+
+# SQLite database files (the runtime data dir is dot-prefixed so it does not
+# collide with the source `Data/` folder on case-insensitive file systems).
+.data/
+*.db
+*.db-shm
+*.db-wal
+
+# Env / secrets
+.env
+.env.local
+*.secrets.json
+
+.DS_Store
