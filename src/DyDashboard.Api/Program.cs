@@ -92,7 +92,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.Configure<ForwardedHeadersOptions>(o =>
 {
     o.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-    o.KnownNetworks.Clear();
+    o.KnownIPNetworks.Clear();
     o.KnownProxies.Clear();
 });
 
@@ -101,6 +101,10 @@ var app = builder.Build();
 // --- Migrate + seed on boot (skipped in tests, which own their DB lifecycle) --
 if (!isTest)
 {
+    // SQLite does not create the parent directory itself (mirrors the Node mkdir).
+    var dir = Path.GetDirectoryName(Path.GetFullPath(apiOptions.DatabasePath));
+    if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.MigrateAsync();
